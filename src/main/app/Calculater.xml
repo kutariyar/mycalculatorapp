@@ -8,10 +8,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <http:listener-config name="AddressSuggestAndCalculater-httpListenerConfig" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
-    <apikit:config name="Calculater-config" raml="Calculator.raml" consoleEnabled="true" doc:name="Router" keepRamlBaseUri="false"/>
+    <apikit:config name="Calculater-config" raml="Calculator.raml" consoleEnabled="true" doc:name="Router" keepRamlBaseUri="false" />
     <ws:consumer-config name="SOAP_Web_Service_Consumer_Calculator" wsdlLocation="http://www.dneonline.com/calculator.asmx?WSDL" service="Calculator" port="CalculatorSoap" serviceAddress="http://www.dneonline.com/calculator.asmx" doc:name="Web Service Consumer"/>
     <flow name="Calculater-main">
-        <http:listener config-ref="AddressSuggestAndCalculater-httpListenerConfig" path="/api/*" doc:name="HTTP"/>
+        <http:listener config-ref="AddressSuggestAndCalculater-httpListenerConfig" path="/api/*" doc:name="HTTP">
+            <http:error-response-builder statusCode="404" reasonPhrase="Bad Url"/>
+        </http:listener>
         <apikit:router config-ref="Calculater-config" doc:name="APIkit Router"/>
         <exception-strategy ref="AddressSuggestAndCalculater-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
     </flow>
@@ -85,6 +87,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
     <apikit:mapping-exception-strategy name="AddressSuggestAndCalculater-apiKitGlobalExceptionMapping">
         <apikit:mapping statusCode="404">
             <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />
+            <logger message="Test MESSAGE:  This is flow 404" level="INFO" doc:name="Logger"/>
             <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
             <set-payload value="{ &quot;message&quot;: &quot;Resource not found&quot; }" doc:name="Set Payload"/>
         </apikit:mapping>

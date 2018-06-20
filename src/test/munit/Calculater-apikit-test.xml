@@ -6,11 +6,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/mock/current/mule-mock.xsd">
     <spring:beans>
-        <spring:import resource="classpath:Calculater.xml"/>
+        <spring:import resource="classpath:Calculater.xml" />
     </spring:beans>
     <munit:config mock-connectors="false" mock-inbounds="false" doc:name="MUnit configuration"/>
     <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8081" basePath="/api" doc:name="HTTP Request Configuration"/>
-    <munit:test name="get:/calculater/sub:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [get:/calculater/sub:Calculator-config-200-application/json]" >
+    <munit:test name="get:/calculater/sub:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [get:/calculater/sub:Calculator-config-200-application/json]">
         <mock:when messageProcessor=".*:.*" doc:name="Mock - SOAP Resposne - Subtract">
             <mock:with-attributes>
                 <mock:with-attribute name="doc:name" whereValue="#['Web Service Consumer - Calculator -Op-Subtract']"/>
@@ -25,17 +25,35 @@ http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/moc
         <set-variable variableName="num2" value="#['12']" doc:name="num2"/>
         <http:request config-ref="HTTP_Request_Configuration" path="/calculater/sub" method="GET" doc:name="HTTP Request to MyCalulater API">
             <http:request-builder>
-                <http:query-param paramName="num1" value="#[flowVars['num1']]"/>
-                <http:query-param paramName="num2" value="#[flowVars['num2']]"/>
+                <http:query-param paramName="num1" value="#[flowVars['num1']]" />
+                <http:query-param paramName="num2" value="#[flowVars['num2']]" />
                 <http:header headerName="Accept" value="application/json"/>
                 <http:header headerName="x-identity" value="x-identity-value"/>
             </http:request-builder>
         </http:request>
-        <object-to-string-transformer doc:name="http response to string"/>
-        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(200))]" doc:name="assert that - http.status eq 200"/>
-        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/get_200_calculater_sub_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected"/>
+        <object-to-string-transformer doc:name="http response to string" />
+        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(200))]" doc:name="assert that - http.status eq 200" />
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/get_200_calculater_sub_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected" />
     </munit:test>
-    <munit:test name="post:/calculater/add:application/json:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [post:/calculater/add:application/json:Calculator-config-200-application/json]" >
+    <munit:test name="get:/calculater/sub:Calculator-config-404-application/json-FlowTest" description="Verifying functionality of [get:/calculater/sub:Calculator-config-404-application/json]" ignore="true">
+        <set-variable variableName="num1" value="100" doc:name="num1" />
+        <set-variable variableName="num2" value="50" doc:name="num2" />
+        <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/calculater/subb" doc:name="HTTP">
+            <http:request-builder>
+                <http:query-param paramName="num1" value="#[flowVars['num1']]"/>
+                <http:query-param paramName="num2" value="#[flowVars['num2']]"/>
+                <http:header headerName="Accept" value="application/json"/>
+                <http:header headerName="x-identity" value="x-identity-value"/>
+
+            </http:request-builder>
+            <http:failure-status-code-validator values="404"/>
+
+        </http:request>
+        <object-to-string-transformer doc:name="http response to string" ignoreBadInput="true"/>
+        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(404))]" doc:name="assert that - http.status eq 404" />
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/get_404_calculater_sub_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected" />
+    </munit:test>
+    <munit:test name="post:/calculater/add:application/json:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [post:/calculater/add:application/json:Calculator-config-200-application/json]">
         <mock:when messageProcessor=".*:.*" doc:name="Mock - SOAP Resposne - Addition">
             <mock:with-attributes>
                 <mock:with-attribute name="doc:name" whereValue="#['Web Service Consumer - Calculator']"/>
@@ -49,16 +67,16 @@ http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/moc
         <set-payload value="#[getResource('scaffolder/request/post_calculater_add_application_json.json').asString()]" doc:name="Set Payload"/>
         <http:request config-ref="HTTP_Request_Configuration" path="/calculater/add" method="POST" doc:name="HTTP">
             <http:request-builder>
-                <http:header headerName="Accept" value="application/json"/>
-                <http:header headerName="Content-Type" value="application/json"/>
+                <http:header headerName="Accept" value="application/json" />
+                <http:header headerName="Content-Type" value="application/json" />
                 <http:header headerName="x-identity" value="x-identity-value"/>
             </http:request-builder>
         </http:request>
-        <object-to-string-transformer doc:name="http response to string"/>
-        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(200))]" doc:name="assert that - http.status eq 200"/>
-        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/post_200_calculater_add_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected"/>
+        <object-to-string-transformer doc:name="http response to string" />
+        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(200))]" doc:name="assert that - http.status eq 200" />
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/post_200_calculater_add_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected" />
     </munit:test>
-    <munit:test name="Calculater-apikit-test-get:/calculater/sub:Calculater-configTest" description="Test" ignore="true">
+    <munit:test name="Calculater-apikit-test-get:/calculater/sub:Calculater-configTest" description="Test" >
         <mock:when messageProcessor=".*:.*" doc:name="Mock - SOAP Resposne - Subtract">
             <mock:with-attributes>
                 <mock:with-attribute name="doc:name" whereValue="#['Web Service Consumer - Calculator']"/>

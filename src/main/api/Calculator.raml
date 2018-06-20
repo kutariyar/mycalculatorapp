@@ -31,6 +31,10 @@ traits:
             application/json:
               schema: !include calculator/schema/subRes.json
               example: !include calculator/example/subRes.example
+        404:
+          body: 
+            application/json: 
+              example: !include calculator/example/subRes_404.example
 
   /add:
     post:
