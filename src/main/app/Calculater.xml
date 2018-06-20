@@ -36,8 +36,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
-        <ws:consumer config-ref="SOAP_Web_Service_Consumer_Calculator" operation="Subtract" doc:name="Web Service Consumer - Calculator"/>
-        <logger message="#[message]" level="INFO" doc:name="Soap Response"/>
+        <ws:consumer config-ref="SOAP_Web_Service_Consumer_Calculator" operation="Subtract" doc:name="Web Service Consumer - Calculator -Op-Subtract"/>
+        <logger message="Soap Response #[message]" level="INFO" doc:name="Soap Response"/>
         <dw:transform-message doc:name="Map SOAP Response" metadata:id="ce053c2e-bce4-4a5b-8d72-a5b5edb3cf0e">
             <dw:input-payload doc:sample="sample_data\AddResponse.xml"/>
             <dw:set-payload><![CDATA[%output application/json
