@@ -1,0 +1,48 @@
+#%RAML 1.0
+title: My Calculator
+version: v1
+baseUri: http://calculater.in.cloudhub.io/api/{version}
+traits: 
+  cesheader:
+    headers: 
+      x-identity:
+        displayName: x-identity
+        type: string
+        required: true
+      Channel:
+        displayName: Channel
+        type: string
+        required: false
+/calculater:
+  /sub:
+    get:
+      is: [cesheader]    
+      description: Subtract two number
+      queryParameters:
+        num1:
+          required: true
+          type: integer
+        num2:
+          required: true
+          type: integer
+      responses:
+        200:
+          body:
+            application/json:
+              schema: !include calculator/schema/subRes.json
+              example: !include calculator/example/subRes.example
+
+  /add:
+    post:
+      is: [cesheader]    
+      description: Addition of Two number
+      body:
+        application/json:
+          schema: !include calculator/schema/addReq.json
+          example: !include calculator/example/addReq.example
+      responses:
+        200:
+          body:
+            application/json:
+              schema: !include calculator/schema/addRes.json
+              example: !include calculator/example/addRes.example
