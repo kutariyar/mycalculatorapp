@@ -1,0 +1,15 @@
+[
+  {
+    "StatusCode": "SUCCESS",
+    "StatusMsg": "string",
+    "SuggestionIndex": "string",
+    "Addresses": [
+      {
+        "ProviderAddressId": "string",
+        "ShortAddress": "string",
+        "Postcode": "string",
+        "ConfidenceScore": 0
+      }
+    ]
+  }
+]

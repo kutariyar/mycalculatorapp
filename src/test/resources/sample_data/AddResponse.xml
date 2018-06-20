@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:AddResponse xmlns:ns0="http://tempuri.org/">
+  <ns0:AddResult>1</ns0:AddResult>
+</ns0:AddResponse>

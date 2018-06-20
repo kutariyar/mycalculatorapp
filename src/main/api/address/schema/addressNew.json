@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "AddressLine1": {
+          "type": "string"
+        },
+        "AddressLine2": {
+          "type": "string"
+        },
+        "Suburb": {
+          "type": "string"
+        },
+        "PostalCode": {
+          "type": "string"
+        },
+        "State": {
+          "type": "string"
+        },
+        "CompanyName": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "AddressLine1",
+        "AddressLine2",
+        "Suburb",
+        "PostalCode",
+        "State",
+        "CompanyName",
+        "Country"
+      ]
+    }
+  },
+  "required": [
+    "Address"
+  ]
+}

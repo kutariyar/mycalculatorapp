@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "StatusCode": {
+      "type": "integer"
+    },
+    "StatusMsg": {
+      "type": "string"
+    },
+    "Timestamp": {
+      "type": "string"
+    },
+    "ValidationStatus": {
+      "type": "boolean"
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "BRIndicator": {
+          "type": "string"
+        },
+        "Floor": {
+          "type": "string"
+        },
+        "Room": {
+          "type": "string"
+        },
+        "StreetName": {
+          "type": "string"
+        },
+        "BlockName": {
+          "type": "string"
+        },
+        "BuildingName": {
+          "type": "string"
+        },
+        "BuildingNumber": {
+          "type": "string"
+        },
+        "PlotIdentification": {
+          "type": "string"
+        },
+        "Suburb": {
+          "type": "string"
+        },
+        "City": {
+          "type": "string"
+        },
+        "State": {
+          "type": "string"
+        },
+        "Postcode": {
+          "type": "integer"
+        },
+        "TimezoneOffset": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        },
+        "AddressLines": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "AddressLine": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "AddressLine"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "BRIndicator",
+        "Floor",
+        "Room",
+        "StreetName",
+        "BlockName",
+        "BuildingName",
+        "BuildingNumber",
+        "PlotIdentification",
+        "Suburb",
+        "City",
+        "State",
+        "Postcode",
+        "TimezoneOffset",
+        "Country",
+        "AddressLines"
+      ]
+    }
+  },
+  "required": [
+    "StatusCode",
+    "Timestamp",
+    "ValidationStatus"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "StatusCode": 200,
+  "StatusMsg": "Passed QAS",
+  "Timestamp": "string",
+  "ValidationStatus": true,
+  "Address": {
+    "BRIndicator": "String",
+    "Floor": "string",
+    "Room": "string",
+    "StreetName": "string",
+    "BlockName": "string",
+    "BuildingName": "string",
+    "BuildingNumber": "string",
+    "PlotIdentification": "string",
+    "Suburb": "Parramatta",
+    "City": "",
+    "State": "NSW",
+    "Postcode": 2000,
+    "TimezoneOffset": "string",
+    "Country": "AU",
+    "AddressLines": [
+      {
+        "AddressLine": "string"
+      }
+    ]
+  }
+}
