@@ -35,7 +35,7 @@ http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/moc
         <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(200))]" doc:name="assert that - http.status eq 200"/>
         <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[getResource('scaffolder/response/get_200_calculater_sub_application_json.json').asString()]" actualValue="#[payload]" doc:name="assert that - payload is as expected"/>
     </munit:test>
-    <munit:test name="post:/calculater/add:application/json:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [post:/calculater/add:application/json:Calculator-config-200-application/json]" ignore="true">
+    <munit:test name="post:/calculater/add:application/json:Calculator-config-200-application/json-FlowTest" description="Verifying functionality of [post:/calculater/add:application/json:Calculator-config-200-application/json]" >
         <mock:when messageProcessor=".*:.*" doc:name="Mock - SOAP Resposne - Addition">
             <mock:with-attributes>
                 <mock:with-attribute name="doc:name" whereValue="#['Web Service Consumer - Calculator']"/>
