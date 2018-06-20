@@ -9,10 +9,7 @@ http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/cu
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <http:listener-config name="AddressSuggestAndCalculater-httpListenerConfig" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
     <apikit:config name="Calculater-config" raml="Calculator.raml" consoleEnabled="true" doc:name="Router" keepRamlBaseUri="false"/>
-    <ws:consumer-config name="Web_Service_Consumer" wsdlLocation="http://www.dneonline.com/calculator.asmx?WSDL" service="Calculator" port="CalculatorSoap" serviceAddress="http://www.dneonline.com/calculator.asmx" doc:name="Web Service Consumer"/>
-    <http:request-config name="HTTP_Request_Configuration" doc:name="HTTP Request Configuration">
-        <http:proxy host="campus-proxy" port="8080"/>
-    </http:request-config>
+    <ws:consumer-config name="SOAP_Web_Service_Consumer_Calculator" wsdlLocation="http://www.dneonline.com/calculator.asmx?WSDL" service="Calculator" port="CalculatorSoap" serviceAddress="http://www.dneonline.com/calculator.asmx" doc:name="Web Service Consumer"/>
     <flow name="Calculater-main">
         <http:listener config-ref="AddressSuggestAndCalculater-httpListenerConfig" path="/api/*" doc:name="HTTP"/>
         <apikit:router config-ref="Calculater-config" doc:name="APIkit Router"/>
@@ -39,7 +36,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
-        <ws:consumer config-ref="Web_Service_Consumer" operation="Subtract" doc:name="Web Service Consumer - Calculator"/>
+        <ws:consumer config-ref="SOAP_Web_Service_Consumer_Calculator" operation="Subtract" doc:name="Web Service Consumer - Calculator"/>
+        <logger message="#[message]" level="INFO" doc:name="Soap Response"/>
         <dw:transform-message doc:name="Map SOAP Response" metadata:id="ce053c2e-bce4-4a5b-8d72-a5b5edb3cf0e">
             <dw:input-payload doc:sample="sample_data\AddResponse.xml"/>
             <dw:set-payload><![CDATA[%output application/json
@@ -69,7 +67,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
-        <ws:consumer config-ref="Web_Service_Consumer" operation="Add" doc:name="Web Service Consumer - Calculator"/>
+        <ws:consumer config-ref="SOAP_Web_Service_Consumer_Calculator" operation="Add" doc:name="Web Service Consumer - Calculator"/>
         <dw:transform-message doc:name="Map SOAP Response" metadata:id="ce053c2e-bce4-4a5b-8d72-a5b5edb3cf0e">
             <dw:input-payload doc:sample="sample_data\AddResponse.xml"/>
             <dw:set-payload><![CDATA[%dw 1.0
